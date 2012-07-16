@@ -13,7 +13,8 @@ Spree::UserRegistrationsController.class_eval do
       sender.affiliates.create(:user_id => @user.id)
 
       #create credit (if required)
-      create_affiliate_credits(sender, @user, "register")
+      #sends a zero for product number since it's on registration
+      create_affiliate_credits(sender, @user, "register", 0)
     end
 
     #destroy the cookie, as the affiliate record has been created.

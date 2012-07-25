@@ -16,8 +16,16 @@
     <td><%= number_to_currency SpreeAffiliate::Config[:sender_credit_on_purchase_amount] %></td>
   </tr>
   <tr>
+    <th scope="row"><%= t("sender_credit_on_purchase_percent") %>:</th>
+    <td><%= number_to_percentage SpreeAffiliate::Config[:sender_credit_on_purchase_percent] %></td>
+  </tr>
+  <tr>
     <th scope="row"><%= t("recipient_credit_on_purchase_amount") %>:</th>
     <td><%= number_to_currency SpreeAffiliate::Config[:recipient_credit_on_purchase_amount] %></td>
+  </tr>
+  <tr>
+    <th scope="row"><%= t("recipient_credit_on_purchase_percent") %>:</th>
+    <td><%= number_to_percentage SpreeAffiliate::Config[:recipient_credit_on_purchase_percent] %></td>
   </tr>
 </table>
 

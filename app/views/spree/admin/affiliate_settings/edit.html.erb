@@ -1,7 +1,9 @@
 <%= render 'spree/admin/shared/configuration_menu' %>
 
 <h1><%= t('affiliate_settings') %></h1>
-
+<p>You may enter values for both percent and amount, and both credits will be applied.<br/>
+Percentage credit will be calculated before adding constant amounts
+</p>
 <%= form_tag(admin_affiliate_settings_path, :method => :put) do %>
 
   <p>
@@ -16,9 +18,18 @@
 	<label><%= t("sender_credit_on_purchase_amount") %></label>
 	<%= text_field_tag('preferences[sender_credit_on_purchase_amount]', SpreeAffiliate::Config[:sender_credit_on_purchase_amount]) %>
   </p>
+ <p>
+	<label><%= t("sender_credit_on_purchase_percent") %></label>
+	<%= text_field_tag('preferences[sender_credit_on_purchase_percent]', SpreeAffiliate::Config[:sender_credit_on_purchase_percent]) %>
+  </p>
+
   <p>
 	<label><%= t('recipient_credit_on_purchase_amount') %></label>
 	<%= text_field_tag('preferences[recipient_credit_on_purchase_amount]', SpreeAffiliate::Config[:recipient_credit_on_purchase_amount])%>
+  </p>
+  <p>
+	<label><%= t('recipient_credit_on_purchase_percent') %></label>
+	<%= text_field_tag('preferences[recipient_credit_on_purchase_percent]', SpreeAffiliate::Config[:recipient_credit_on_purchase_percent])%>
   </p>
 
   <p class="form-buttons">

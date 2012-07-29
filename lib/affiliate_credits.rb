@@ -27,7 +27,7 @@ module AffiliateCredits
                          :remaining_amount => sender_credit_amount+item_total*sender_credit_percent/100,
                          :reason => "Affiliate: #{event} Order: #{order}", :user_id => sender.id)
 
-      log_event recipient.affiliate_partner, sender, credit, event
+      log_event recipient.affiliate_partner, sender, credit, event, order
     end
 
     #check if affiliate should recevied credit on sign up
@@ -36,13 +36,13 @@ module AffiliateCredits
                          :remaining_amount => recipient_credit_amount+item_total*recipient_credit_percent/100,
                          :reason => "Affiliate: #{event} Order: #{order}", :user_id => recipient.id)
 
-      log_event recipient.affiliate_partner, recipient, credit, event
+      log_event recipient.affiliate_partner, recipient, credit, event, order
     end
 
   end
 
-  def log_event(affiliate, user, credit, event)
-    affiliate.events.create(:reward => credit, :name => event, :user => user)
+  def log_event(affiliate, user, credit, event, order)
+    affiliate.events.create(:reward => credit, :name => event, :user => user, :order_id=>order)
   end
 
 end

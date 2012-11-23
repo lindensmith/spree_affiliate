@@ -30,6 +30,7 @@ module AffiliateCredits
       log_event recipient.affiliate_partner, sender, credit, event, order
     end
 
+
     #check if affiliate should recevied credit on sign up
     if recipient_credit_percent > 0 or recipient_credit_amount > 0
       credit = Spree::StoreCredit.create(:amount => recipient_credit_amount+ item_total* recipient_credit_percent/100,
@@ -45,4 +46,19 @@ module AffiliateCredits
     affiliate.events.create(:reward => credit, :name => event, :user => user, :order_id=>order)
   end
 
+  def check_affiliate
+    @user.reload if @user.present?
+    return if cookies[:ref_id].blank? || @user.nil? || @user.invalid?
+    sender = Spree.user_class.find_by_ref_id(cookies[:ref_id])
+
+    if sender
+      sender.affiliates.create(:user_id => @user.id)
+
+      #create credit (if required)
+      @credited = create_affiliate_credits(sender, @user, "register")
+    end
+
+    #destroy the cookie, as the affiliate record has been created.
+    cookies[:ref_id] = nil
+  end
 end

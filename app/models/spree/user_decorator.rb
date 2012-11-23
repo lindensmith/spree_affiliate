@@ -1,11 +1,15 @@
-Spree::User.class_eval do
+Spree.user_class.class_eval do
 
-  has_many :affiliates, :class_name => 'Spree::Affiliate', :foreign_key => "partner_id"
-  has_many :referred_users, :class_name => 'Spree::User', :through => :affiliates
-  has_one :affiliate_partner, :class_name => "Spree::Affiliate", :foreign_key => "user_id"
+  has_many :affiliates, :class_name => 'Spree::Affiliate', :foreign_key => "partner_id", :dependent => :destroy
+  has_many :referred_users, :class_name => Spree.user_class.to_s, :through => :affiliates
+  has_one :affiliate_partner, :class_name => "Spree::Affiliate", :foreign_key => "user_id", :dependent => :destroy
 
   def referred_by
-    affiliate_partner.partner
+    affiliate_partner.try(:partner)
+  end
+
+  def referred_by?(user)
+    referred_by and referred_by == user
   end
 
   def ref_id
@@ -13,6 +17,6 @@ Spree::User.class_eval do
   end
 
   def self.find_by_ref_id(ref_id)
-    Spree::User.find_by_id(ref_id.to_s.reverse)
+    Spree.user_class.find_by_id(ref_id.to_s.reverse)
   end
 end
